@@ -19,12 +19,14 @@ jobs:
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
       run: |
-        # Pull kb-sdk & create startup script, and b
+        # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
         mkdir $HOME/bin/
         docker run kbase/kb-sdk genscript > $HOME/bin/kb-sdk
         test -f "$HOME/bin/kb-sdk" && echo "Startup file created"
-        chmod +x /bin/kb-sdk
+        chmod +x $HOME/bin/kb-sdk
+        export PATH=$PATH:$HOME/bin/
+        echo "export PATH=\$PATH:$HOME/bin/" >> ~/.bashrc
         # Build `test_local` directory (doesn't run tests just yet!)
         kb-sdk test
         test -f "test_local/test.cfg" && echo "Config created"
