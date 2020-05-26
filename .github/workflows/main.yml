@@ -28,5 +28,5 @@ jobs:
         # export PATH=$PATH:$HOME/bin/
         echo "::add-path::$GITHUB_WORKSPACE/bin"
         # Build `test_local` directory (doesn't run tests just yet!)
-        kb-sdk test
+        $GITHUB_WORKSPACE/bin/kb-sdk test
         test -f "test_local/test.cfg" && echo "Config created"
