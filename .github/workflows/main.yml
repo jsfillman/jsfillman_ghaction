@@ -1,0 +1,30 @@
+name: TokenTesting
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  create_environment:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Check out GitHub repo
+      uses: actions/checkout@v2
+
+    - name: Set up test environment
+      shell: bash
+      env:
+        KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
+      run: |
+        # Pull kb-sdk & create startup script, and b
+        docker pull kbase/kb-sdk
+        mkdir $HOME/bin/
+        docker run kbase/kb-sdk genscript > $HOME/bin/kb-sdk
+        test -f "$HOME/bin/kb-sdk" && echo "Startup file created"
+        chmod +x /bin/kb-sdk
+        # Build `test_local` directory (doesn't run tests just yet!)
+        kb-sdk test
+        test -f "test_local/test.cfg" && echo "Config created"
