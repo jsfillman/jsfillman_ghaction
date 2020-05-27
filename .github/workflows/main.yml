@@ -24,9 +24,6 @@ jobs:
         mkdir -p $GITHUB_WORKSPACE/bin
         docker run kbase/kb-sdk genscript > $GITHUB_WORKSPACE/bin/kb-sdk
         test -f "$GITHUB_WORKSPACE/bin/kb-sdk" && echo "Startup file created"
-        chmod +x $GITHUB_WORKSPACE/bin/kb-sdk
-        # export PATH=$PATH:$HOME/bin/
-        echo "::add-path::$GITHUB_WORKSPACE/bin"
         # Build `test_local` directory (doesn't run tests just yet!)
-        $GITHUB_WORKSPACE/bin/kb-sdk test
+        sh $GITHUB_WORKSPACE/bin/kb-sdk test
         test -f "test_local/test.cfg" && echo "Config created"
