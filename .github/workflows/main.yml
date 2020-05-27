@@ -1,4 +1,4 @@
-name: TokenTesting
+name: Run SDK Tests
 
 on:
   push:
