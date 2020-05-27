@@ -22,9 +22,8 @@ jobs:
         # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
         mkdir -p $GITHUB_WORKSPACE/bin
+        # Can remove the genscript line if the subsequent docker commands work
         docker run kbase/kb-sdk genscript > $GITHUB_WORKSPACE/bin/kb-sdk
-        test -f "$HOME/.kbsdk.cache" && echo "Cache file exists"
-        test -f "$GITHUB_WORKSPACE/bin/kb-sdk" && echo "Startup file created"
-        # Build `test_local` directory (doesn't run tests just yet!)
-        #sh $GITHUB_WORKSPACE/bin/kb-sdk test
-        test -f "test_local/test.cfg" && echo "Config created"
+        docker run -i -v /var/run/docker.sock:/var/run/docker.sock --entrypoint ls kbase/kb-sdk -l /var/run/docker.sock|awk '{print $4}' > $HOME/.kbsdk.cache && echo "Cachefile created"
+        exec docker run -i --rm -v $HOME:$HOME -u $(id -u) -w $(pwd) -v /var/run/docker.sock:/var/run/docker.sock  -e DUSER=$USER -e DSHELL=$SHELL --group-add $(cat $HOME/.kbsdk.cache) kbase/kb-sdk test && echo "Config created"
+        test -f "test_local/test.cfg" && echo "Config exists"
