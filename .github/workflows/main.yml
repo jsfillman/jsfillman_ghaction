@@ -18,7 +18,9 @@ jobs:
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
+        COMPOSE_INTERACTIVE_NO_CLI: 1
       run: |
+        echo $COMPOSE_INTERACTIVE_NO_CLI
         # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
         mkdir -p $GITHUB_WORKSPACE/bin
