@@ -31,4 +31,6 @@ jobs:
         # Add token to config
         sed -ie "s/^test_token=.*$/&$KBASE_TEST_TOKEN/g" ./test_local/test.cfg
     - name: Run tests
+      shell: bash
+      run: |
         sh $GITHUB_WORKSPACE/bin/kb-sdk test
