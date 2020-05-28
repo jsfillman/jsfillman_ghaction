@@ -2,9 +2,9 @@ name: Run SDK Tests
 
 on:
   push:
-    branches: [ master ]
+    branches: [ refactor ]
   pull_request:
-    branches: [ master ]
+    branches: [ refactor ]
 
 jobs:
 
@@ -22,8 +22,13 @@ jobs:
         # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
         sh $GITHUB_WORKSPACE/bin/make_testdir && echo "Created test_local"
-        test -f "test_local/test.cfg" && echo "Config exists"
+        test -f "test_local/test.cfg" && echo "Confirmed config exists"
+    - name: Configure authentication
+      shell: bash
+      env:
+        KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
+      run: |
         # Add token to config
         sed -ie "s/^test_token=.*$/&$KBASE_TEST_TOKEN/g" ./test_local/test.cfg
-        # Run actual tests!
+    - name: Run tests
         sh $GITHUB_WORKSPACE/bin/kb-sdk test
