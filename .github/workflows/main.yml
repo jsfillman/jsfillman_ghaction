@@ -13,12 +13,12 @@ jobs:
     steps:
 
     - name: Check out GitHub repo
-      if: "!contains(github.event.head_commit.message, 'ci skip')"
-      uses: actions/checkout@v2
+      if: "!contains(github.event.head_commit.message, 'ci skip')" and "!contains(github.event.head_commit.message, 'no action')"
+      uses: action/checkout@v2
 
 
     - name: Set up test environment
-      if: "!contains(github.event.head_commit.message, 'ci skip')"
+      if: "!contains(github.event.head_commit.message, 'ci skip')" and "!contains(github.event.head_commit.message, 'no action')"
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
@@ -30,7 +30,7 @@ jobs:
         test -f "test_local/test.cfg" && echo "Confirmed config exists"
 
     - name: Configure authentication
-      if: "!contains(github.event.head_commit.message, 'ci skip')"
+      if: "!contains(github.event.head_commit.message, 'ci skip')" and "!contains(github.event.head_commit.message, 'no action')"
 
       shell: bash
       env:
@@ -40,7 +40,7 @@ jobs:
         sed -ie "s/^test_token=.*$/&$KBASE_TEST_TOKEN/g" ./test_local/test.cfg
 
     - name: Run tests
-      if: "!contains(github.event.head_commit.message, 'ci skip')"
+      if: "!contains(github.event.head_commit.message, 'ci skip')" and "!contains(github.event.head_commit.message, 'no action')"
       shell: bash
       run: |
         sh $GITHUB_WORKSPACE/bin/kb-sdk test
