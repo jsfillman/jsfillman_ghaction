@@ -1,12 +1,6 @@
 name: Run SDK Tests
 
 on:
-# Add a "no run" option based on commit message (no-ci or similar)
-
-# Relevant, but not sure we'd want to do this: https://github.community/t/stop-github-actions-running-on-a-fork/17965/2
-# Issue would be we'd have to change the action for each repo, unless we can do a wildcard kbaseapps/* kind of thing.
-
-# Verify how PRs to fork would work... Can we force run a check using _our_ code and always avoid any modifications outside contribs might be using?
   push:
     branches: [ refactor ]
   pull_request:
@@ -21,7 +15,7 @@ jobs:
     - name: Check out GitHub repo
       if: "!contains(github.event.head_commit.message, 'ci skip')"
       uses: actions/checkout@v2
-# Add checkout for the https://github.com/jsfillman/kb_sdk_actions repo
+
 
     - name: Set up test environment
       if: "!contains(github.event.head_commit.message, 'ci skip')"
@@ -31,27 +25,22 @@ jobs:
       run: |
         # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
-# Modify the paths in below two `sh` runs. Should use the cloned kb_sdk_actions repo instead of the ones here (since other repos won't have the bin dir)        
+       
         sh $GITHUB_WORKSPACE/bin/make_testdir && echo "Created test_local"
         test -f "test_local/test.cfg" && echo "Confirmed config exists"
 
     - name: Configure authentication
       if: "!contains(github.event.head_commit.message, 'ci skip')"
-# Verify if we need to set shell and env each time.
+
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
       run: |
         # Add token to config
         sed -ie "s/^test_token=.*$/&$KBASE_TEST_TOKEN/g" ./test_local/test.cfg
-        
+
     - name: Run tests
       if: "!contains(github.event.head_commit.message, 'ci skip')"
       shell: bash
       run: |
         sh $GITHUB_WORKSPACE/bin/kb-sdk test
-
-# Discuss any desire to run in both appdev and ci (perhaps for PRs to master?) - https://github.com/ialarmedalien/Templatomatic/blob/master/.github/workflows/run_tests.yml
-
-
-# Final biggie is of course to add a push to a code coverage site.
