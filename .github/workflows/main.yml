@@ -17,10 +17,14 @@ jobs:
   sdk_tests:
     runs-on: ubuntu-latest
     steps:
+
     - name: Check out GitHub repo
+      if: "!contains(github.event.head_commit.message, 'ci skip')"
       uses: actions/checkout@v2
 # Add checkout for the https://github.com/jsfillman/kb_sdk_actions repo
+
     - name: Set up test environment
+      if: "!contains(github.event.head_commit.message, 'ci skip')"
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
@@ -30,7 +34,9 @@ jobs:
 # Modify the paths in below two `sh` runs. Should use the cloned kb_sdk_actions repo instead of the ones here (since other repos won't have the bin dir)        
         sh $GITHUB_WORKSPACE/bin/make_testdir && echo "Created test_local"
         test -f "test_local/test.cfg" && echo "Confirmed config exists"
+
     - name: Configure authentication
+      if: "!contains(github.event.head_commit.message, 'ci skip')"
 # Verify if we need to set shell and env each time.
       shell: bash
       env:
@@ -38,7 +44,9 @@ jobs:
       run: |
         # Add token to config
         sed -ie "s/^test_token=.*$/&$KBASE_TEST_TOKEN/g" ./test_local/test.cfg
+        
     - name: Run tests
+      if: "!contains(github.event.head_commit.message, 'ci skip')"
       shell: bash
       run: |
         sh $GITHUB_WORKSPACE/bin/kb-sdk test
