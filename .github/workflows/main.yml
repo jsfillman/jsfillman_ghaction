@@ -21,8 +21,6 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: 'jsfillman/kb_sdk_actions'
-      run: |
-        test -f "$HOME/kb_sdk_actions/bin/kb-sdk" && echo "CI files cloned"
 
 
     - name: Set up test environment
@@ -31,6 +29,8 @@ jobs:
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
       run: |
+        # Verify kb_sdk_actions clone worked
+        test -f "$HOME/kb_sdk_actions/bin/kb-sdk" && echo "CI files cloned"
         # Pull kb-sdk & create startup script
         docker pull kbase/kb-sdk
        
