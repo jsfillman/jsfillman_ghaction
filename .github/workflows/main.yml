@@ -1,4 +1,6 @@
-name: Run SDK Tests
+name: Run KBase SDK Tests
+author: @jsfillman
+description: 'This Action runs standard tests for apps built using the KBase.us SDK.'
 
 on:
   push:
@@ -13,12 +15,12 @@ jobs:
     steps:
 
     - name: Check out GitHub repo
-      if: "!contains(github.event.head_commit.message, 'skip ci')" && "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
+      if: "!contains(github.event.head_commit.message, 'skip ci')"
+      # if: "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
       uses: actions/checkout@v2
 
     - name: Check out Actions CI files
       if: "!contains(github.event.head_commit.message, 'skip ci')"
-      if: "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
       uses: actions/checkout@v2
       with:
         repository: 'jsfillman/kb_sdk_actions'
@@ -27,7 +29,6 @@ jobs:
 
     - name: Set up test environment
       if: "!contains(github.event.head_commit.message, 'skip ci')"
-      if: "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
@@ -42,8 +43,6 @@ jobs:
 
     - name: Configure authentication
       if: "!contains(github.event.head_commit.message, 'skip ci')"
-      if: "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
-
       shell: bash
       env:
         KBASE_TEST_TOKEN: ${{ secrets.KBASE_TEST_TOKEN }}
@@ -53,7 +52,6 @@ jobs:
 
     - name: Run tests
       if: "!contains(github.event.head_commit.message, 'skip ci')"
-      if: "!contains(github.repository, 'jsfillman/jsfillman_ghaction')"
       shell: bash
       run: |
         sh $GITHUB_WORKSPACE/kb_sdk_actions/bin/kb-sdk test
