@@ -5,7 +5,7 @@ This is a demo of building and testing KBase Apps using :octocat: Actions.
 
 | Branch  | Build                                                              | Coverage                                                                         | LGTM Alerts                                                     |
 | ------- | ------------------------------------------------------------------ | -------------------------------------------------------------------------------- | --------------------------------------------------------------- |
-| master  | [![Run SDK Tests](https://github.com/jsfillman/jsfillman_ghaction/workflows/Run%20SDK%20Tests/badge.svg)](https://github.com/jsfillman/jsfillman_ghaction/actions?query=workflow%3A%22Run+SDK+Tests%22)  | N/A | [![Total alerts](https://img.shields.io/lgtm/alerts/g/jsfillman/jsfillman_ghaction.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jsfillman/jsfillman_ghaction/alerts/)  |
+| master  | [![Run SDK Tests](https://github.com/jsfillman/jsfillman_ghaction/workflows/Run%20SDK%20Tests/badge.svg)](https://github.com/jsfillman/jsfillman_ghaction/actions?query=workflow%3A%22Run+SDK+Tests%22)  | Coming Soon | [![Total alerts](https://img.shields.io/lgtm/alerts/g/jsfillman/jsfillman_ghaction.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/jsfillman/jsfillman_ghaction/alerts/)  |
 
 
 ## Details 
